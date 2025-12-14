@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:xacro="http://ros.org/wiki/xacro" name="magician_gazebo">
+
+  <!-- Include the Gazebo-ready robot description -->
+  <xacro:include filename="$(find dobot_description)/model/magician_gazebo.urdf.xacro"/>
+
+  <!-- World link -->
+  <link name="world"/>
+
+  <!-- Connect robot to the world -->
+  <xacro:magician base_parent="world"/>
+
+</robot>

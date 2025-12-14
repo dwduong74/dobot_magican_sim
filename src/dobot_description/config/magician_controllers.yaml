@@ -1,0 +1,52 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    magician_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    magician_gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+      
+    magician_parallelogram_controller:
+      type: position_controllers/JointGroupPositionController
+
+
+magician_arm_controller:
+  ros__parameters:
+    joints:
+      - magician_joint_1
+      - magician_joint_2
+      - magician_joint_3
+      - magician_joint_4
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+
+magician_gripper_controller:
+  ros__parameters:
+    joints:
+      - magician_joint_prismatic_l
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+
+magician_parallelogram_controller:
+  ros__parameters:
+    joints:
+      - magician_joint_mimic_1
+      - magician_joint_mimic_2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
