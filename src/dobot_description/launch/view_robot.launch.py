@@ -10,17 +10,14 @@ import xacro
 def generate_launch_description():
     pkg_dobot_description = get_package_share_directory('dobot_description')
     
-    # Use sim time argument
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
-    # --- Robot Description ---
-    # NOTE: We use the standalone URDF, NOT the Gazebo one for RViz visualization
     robot_description_path = os.path.join(
         pkg_dobot_description, 'model', 'magician_standalone.urdf.xacro'
     )
     robot_description_config = Command(['xacro ', robot_description_path])
     
-    # --- Nodes ---
+
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -38,7 +35,9 @@ def generate_launch_description():
         name='joint_state_publisher_gui',
     )
     
-    # --- RViz ---
+
+
+
     rviz_config_file = os.path.join(pkg_dobot_description, 'rviz', 'urdf_full.rviz')
     rviz_node = Node(
         package='rviz2',

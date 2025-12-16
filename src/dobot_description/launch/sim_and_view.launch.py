@@ -10,11 +10,7 @@ import os
 
 def generate_launch_description():
     pkg_dobot_description = get_package_share_directory('dobot_description')
-
-    # --- Arguments ---
     use_sim_time = LaunchConfiguration('use_sim_time')
-
-    # --- Gazebo Environment Setup ---
     pkg_share_parent = os.path.dirname(pkg_dobot_description)
     gazebo_model_path = pkg_share_parent
     if os.environ.get('GAZEBO_MODEL_PATH'):
@@ -33,29 +29,22 @@ def generate_launch_description():
         name='GAZEBO_PLUGIN_PATH',
         value=gazebo_plugin_path
     )
-
     set_gazebo_model_database = SetEnvironmentVariable(
         name='GAZEBO_MODEL_DATABASE_URI',
         value=''
     )
-
-    # --- Gazebo Simulation ---
     world = ""
     gzserver_cmd = ExecuteProcess(
         cmd=['gzserver', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so'] + ([world] if world else []),
         output='screen'
     )
     gzclient_cmd = ExecuteProcess(cmd=['gzclient'], output='screen')
-
-    # --- Robot Description ---
     robot_description_path = os.path.join(pkg_dobot_description, 'model', 'magician_standalone_gazebo.urdf.xacro')
     robot_description_config = xacro.process_file(robot_description_path)
     processed_urdf = robot_description_config.toxml()
     temp_urdf_path = "/tmp/dobot_magician.urdf"
     with open(temp_urdf_path, "w") as f:
         f.write(processed_urdf)
-
-    # --- Nodes ---
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -107,7 +96,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # --- RViz ---
+
     rviz_config_file = os.path.join(pkg_dobot_description, 'rviz', 'urdf_full.rviz')
     rviz_node = Node(
         package='rviz2',
@@ -117,8 +106,6 @@ def generate_launch_description():
         arguments=['-d', rviz_config_file],
         parameters=[{'use_sim_time': use_sim_time}]
     )
-
-    # --- Event Handlers ---
     delay_controllers_after_spawn = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=spawn_entity,
@@ -138,6 +125,10 @@ def generate_launch_description():
         
         set_gazebo_model_path,
         set_gazebo_plugin_path,
+
+
+
+        
         set_gazebo_model_database,
         
         gzserver_cmd,
