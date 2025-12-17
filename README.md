@@ -29,7 +29,7 @@ Dự án này cung cấp một bộ các gói ROS2 để mô phỏng robot Dobot
 
 1.  **Nhân bản kho lưu trữ:**
     ```bash
-    git clone https://github.com/user/dobot_magican_sim.git
+    git clone https://github.com/dwduong74/dobot_magican_sim.git
     cd dobot_magican_sim
     ```
 
